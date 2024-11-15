@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block content %}
+<style type="text/css">
+  .title-text {
+    font-size: 3rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  /* Upload Form Styling */
+  .upload-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 12px rgba(5, 113, 127, 0.847);
+  }
+
+  .btn-custom {
+    background-color: #4aa1f3;
+    color: #fff;
+    font-weight: 500;
+    width: 100%;
+  }
+  .btn-custom:hover {
+    background-color: rgb(10, 107, 146);
+  }
+
+  /* Post Boxes Styling */
+  .post_box {
+    background: #fff;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(5, 113, 127, 0.847);
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 15px rgba(2, 57, 63, 0.847);
+  }
+
+  .post_box-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #4aa1f3;
+    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+  }
+
+  .post_box-header .name-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .post_box-body p {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .post_box-body a {
+    color: #4aa1f3;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .post_box-body a:hover {
+    color: #357ab8;
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container">
+  <h2 class="title-text">Blockchain Based File Storage</h2>
+  <div class="row mt-4">
+    <!-- Upload Section -->
+    <div class="col-sm-4">
+      <div class="upload-form">
+        <h4 class="text-center text-primary">Upload a File</h4>
+        <form action="/submit" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>User Name:</label>
+            <input type="text" class="form-control" name="user" placeholder="Enter Your Name" required />
+          </div>
+          <div class="form-group">
+            <label for="fileUpld">Upload a File:</label>
+            <input type="file" class="form-control-file" id="fileUpld" name="v_file" accept=".*" required />
+          </div>
+          <button type="submit" class="btn btn-custom mt-3">Upload</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Uploaded Files Section -->
+    <div class="col-sm-8">
+      <h4 class="text-primary text-center">Uploaded Files</h4>
+      {% for post in request_tx %}
+      <div class="post_box">
+        <div class="post_box-header d-flex align-items-center">
+          <div class="post_box-avatar">{{post.user[0]}}</div>
+          <div class="name-header">{{post.user}}</div>
+        </div>
+        <div class="post_box-body mt-2">
+          <p>
+            {{post.v_file}} ➔ 
+            <a href="{{url_for('download_file', variable=post.v_file)}}">Download</a>
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
